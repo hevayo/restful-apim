@@ -1,0 +1,318 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.9.0"
+  title: "WSO2 API Manager"
+  contact:
+    name: "WSo2"
+    url: "http://wso2.com/products/api-manager/"
+    email: "architecture@wso2.com"
+  license: 
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+consumes: [ "application/json" ]
+produces: [ "application/json" ]
+schemes: [ "https" ]
+
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /apis:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description: Get a list of available APIs
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: size
+          in: query
+          description: Size of array
+          required: true
+          type: number
+          format: double
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            title: ArrayOfAPIs
+            type: array
+            items:
+              title: API
+              type: object
+              properties:
+                name:
+                  type: string
+                single:
+                  type: boolean
+    post:
+      description: Create a new API
+      responses:
+        201:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"
+  /apis/{apiId}:
+    parameters:
+      -
+        $ref: "#/parameters/apiId"  
+    get:
+      description: Get details of an API
+      responses:
+        200:
+          description: Successful response      
+    put:
+      description: Update an existing API
+      responses:
+        200:
+          description: Successful response      
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    delete:
+      description: Delete an existing API
+      responses:
+        204:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+  /apis/{apiId}/copy:
+    parameters:
+      -
+        $ref: "#/parameters/apiId"   
+    post:
+      description: Create a new API by coping and existing 
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+  /apis/{apiId}/lifecycle:
+    parameters:
+      -
+        $ref: "#/parameters/apiId"  
+    post:
+      description: Change the lifecycle of an API 
+      responses:
+        200:
+          description: Successful response  
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+  
+  /apis/{apiId}/documents:
+    get:
+      description: Get a list of documents belonging to an API 
+      responses:
+        200:
+          description: Successful response      
+    post:
+      description: Add a new document to an API 
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    parameters:
+      -
+        $ref: "#/parameters/apiId"
+  /apis/{apiId}/documents/{documentId}:
+    get:
+      description: Get the document details of an API 
+      responses:
+        200:
+          description: Successful response
+    put:
+      description: Update document details 
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"
+    delete:
+      description: Delete a document of an API
+      responses:
+        200:
+          description: Successful response  
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    parameters:
+      -
+        $ref: "#/parameters/apiId"
+      -
+        name: documentId
+        in: path
+        description: Document Id
+        required: true
+        type: number
+        format: integer
+        
+  
+  /applications:
+    get:
+      description: Get a list of Applications created
+      responses:
+        200:
+          description: Successful response    
+    post:
+      description: Create a new Application
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+  
+  /applications/{applicationId}:
+    get:
+      description: Get Application details
+      responses:
+        200:
+          description: Successful response    
+    put:
+      description: Update application details
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    delete:
+      description: Remove and application
+      responses:
+        204:
+          description: Application was deleted successfully.
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    parameters: 
+      - $ref : "#/parameters/applicationId"
+  
+  /applications/{applicationId}/subscriptions:
+    get:
+      description: Get subscription list
+      responses:
+        200:
+          description: Successful response        
+    post:
+      description: Add a new subscription
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    parameters: [ { $ref : "#/parameters/applicationId" } ]
+
+  /applications/{applicationId}/subscriptions/{subscriptionId}:
+    get:
+      description: Get subscription details
+      responses:
+        200:
+          description: Successful response            
+    put:
+      description: Update subscription details
+      responses:
+        200:
+          description: Successful response
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    delete:
+      description: Remove subscription
+      responses:
+        204:
+          description: Unsubscribe from an API
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"          
+    parameters: 
+      - 
+        $ref : "#/parameters/applicationId"
+      -
+        $ref : "#/parameters/subscriptionId"
+    
+parameters:
+  apiId:
+    name: apiId
+    in: path
+    description: "API id"
+    required: true
+    type: number
+    format: integer
+  applicationId:
+    name: applicationId
+    in: path
+    description: "Application Id"
+    required: true
+    type: number
+    format: integer
+  subscriptionId:
+    name: subscriptionId
+    in: path
+    description: "Subscription Id"
+    required: true
+    type: number
+    format: integer
+
+definitions:
+  Error:
+    title: "Error object returned with 4XX HTTP status"
+    required: [ "code", "message" ]
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+        description: "Error message."
+      description:
+        type: string
+        description: "A detail description about the error message."
+      moreInfo:
+        type: string
+        description: "Preferably an url with more details about the error."
+      error:
+        type: array
+        description: "If there are more than one error list them out. Ex. list out validation errors by each field." 
+        items:
+          properties:
+            code:
+              type: integer
+              format: int64
+            message:
+              type: string
+              description: "Description about individual errors occored"
+        
+        
+        
+        
