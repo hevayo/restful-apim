@@ -305,13 +305,18 @@ definitions:
         type: array
         description: "If there are more than one error list them out. Ex. list out validation errors by each field." 
         items:
-          properties:
-            code:
-              type: integer
-              format: int64
-            message:
-              type: string
-              description: "Description about individual errors occored"
+          $ref : "#/definitions/ErrorListItem"
+  ErrorListItem:
+    title: Description of individual errors that may have occored during a request.
+    required: [ "code" , "message"]
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+        description: "Description about individual errors occored"    
+    
         
         
         
