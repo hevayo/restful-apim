@@ -1,2 +1,2 @@
 # restful-apim
-RESTFul API for WSO2 API Manager
+RESTFul API for API Manager
