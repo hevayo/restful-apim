@@ -24,11 +24,8 @@ paths:
   /apis:
     # This is a HTTP operation
     get:
-      # Describe this verb here. Note: you can use markdown
       description: Get a list of available APIs
-      # This is array of GET operation parameters:
       parameters:
-        # An example parameter that is in query and is required
         -
           name: size
           in: query
@@ -36,32 +33,35 @@ paths:
           required: true
           type: number
           format: double
-      # Expected responses for this operation:
       responses:
-        # Response code
         200:
           description: Successful response
-          # A schema describing your response object.
-          # Use JSON Schema format
           schema:
             title: ArrayOfAPIs
             type: array
             items:
-              title: API
-              type: object
-              properties:
-                name:
-                  type: string
-                single:
-                  type: boolean
+              $ref : "#/definitions/API"
     post:
-      description: Create a new API
+      description: "Create a new API"
+      parameters:
+        - in: body
+          name: body
+          description: "API object that needs to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/API"
       responses:
         201:
-          description: Successful response
+          description: "Successful response with the newly created API object"
+          schema:
+            $ref: "#/definitions/API"
         400:
-          description: Invalid request or validation error
+          description: "Invalid request or validation error"
           schema: 
+            $ref: "#/definitions/Error"
+        415:
+          description: "Unsupported media type"
+          schema:
             $ref: "#/definitions/Error"
   /apis/{apiId}:
     parameters:
@@ -71,12 +71,21 @@ paths:
       description: Get details of an API
       responses:
         200:
-          description: Successful response      
+          description: Successful response
+          schema: 
+            $ref : "#/definitions/API"
     put:
       description: Update an existing API
+      parameters:
+        - in: body
+          name: body
+          description: "API object that needs to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/API"
       responses:
         200:
-          description: Successful response      
+          description: Successful response with updated API object
         400:
           description: Invalid request or validation error
           schema: 
@@ -176,23 +185,44 @@ paths:
       description: Get a list of Applications created
       responses:
         200:
-          description: Successful response    
+          description: "Successful response"
+          schema:
+            title: ArrayOfAPIs
+            type: array
+            items:
+              $ref : "#/definitions/Application"          
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"              
     post:
       description: Create a new Application
+      parameters:
+        - in: body
+          name: body
+          description: "Application object that needs to be added"
+          required: true
+          schema:
+            $ref: "#/definitions/Application"      
       responses:
-        200:
+        201:
           description: Successful response
         400:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"          
-  
+        415:
+          description: "Unsupported media type"
+          schema:
+            $ref: "#/definitions/Error"  
   /applications/{applicationId}:
     get:
       description: Get Application details
       responses:
         200:
-          description: Successful response    
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Application"          
     put:
       description: Update application details
       responses:
@@ -285,6 +315,24 @@ parameters:
     format: integer
 
 definitions:
+  API:
+    title: "API object"
+    required: [ "name" , "context" ]
+    properties:
+      name:
+        type: "string"
+      context:
+        type: "string"
+      swagger:
+        type: "string"
+  Application:
+    title: "Oauth Application"
+    required: [ "applicationId" ]
+    properties:
+      applicationId:
+        type: "string"
+      name:
+        type: "string"
   Error:
     title: "Error object returned with 4XX HTTP status"
     required: [ "code", "message" ]
