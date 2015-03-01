@@ -43,16 +43,7 @@
                             "title": "ArrayOfAPIs",
                             "type": "array",
                             "items": {
-                                "title": "API",
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "single": {
-                                        "type": "boolean"
-                                    }
-                                }
+                                "$ref": "#/definitions/API"
                             }
                         }
                     }
@@ -60,12 +51,32 @@
             },
             "post": {
                 "description": "Create a new API",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "API object that needs to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/API"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
-                        "description": "Successful response"
+                        "description": "Successful response with the newly created API object",
+                        "schema": {
+                            "$ref": "#/definitions/API"
+                        }
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -83,15 +94,29 @@
                 "description": "Get details of an API",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/API"
+                        }
                     }
                 }
             },
             "put": {
                 "description": "Update an existing API",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "API object that needs to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/API"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response with updated API object"
                     },
                     "400": {
                         "description": "Invalid request or validation error",
@@ -243,18 +268,48 @@
                 "description": "Get a list of Applications created",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "title": "ArrayOfAPIs",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Application"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
             "post": {
                 "description": "Create a new Application",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Application object that needs to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Application"
+                        }
+                    }
+                ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Successful response"
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -267,7 +322,10 @@
                 "description": "Get Application details",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Application"
+                        }
                     }
                 }
             },
@@ -408,6 +466,38 @@
         }
     },
     "definitions": {
+        "API": {
+            "title": "API object",
+            "required": [
+                "name",
+                "context"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "context": {
+                    "type": "string"
+                },
+                "swagger": {
+                    "type": "string"
+                }
+            }
+        },
+        "Application": {
+            "title": "Oauth Application",
+            "required": [
+                "applicationId"
+            ],
+            "properties": {
+                "applicationId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "Error": {
             "title": "Error object returned with 4XX HTTP status",
             "required": [
@@ -435,17 +525,25 @@
                     "type": "array",
                     "description": "If there are more than one error list them out. Ex. list out validation errors by each field.",
                     "items": {
-                        "properties": {
-                            "code": {
-                                "type": "integer",
-                                "format": "int64"
-                            },
-                            "message": {
-                                "type": "string",
-                                "description": "Description about individual errors occored"
-                            }
-                        }
+                        "$ref": "#/definitions/ErrorListItem"
                     }
+                }
+            }
+        },
+        "ErrorListItem": {
+            "title": "Description of individual errors that may have occored during a request.",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Description about individual errors occored"
                 }
             }
         }
