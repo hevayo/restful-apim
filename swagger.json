@@ -466,7 +466,7 @@
         }
     },
     "definitions": {
-        "API": {
+"API": {
             "title": "API object",
             "required": [
                 "name",
@@ -480,6 +480,48 @@
                     "type": "string"
                 },
                 "swagger": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "responseCaching": {
+                    "type": "string"
+                },
+                "isDefaultVersion": {
+                    "type": "string"
+                },
+                "transports": {
+                    "type": "string"
+                },
+                "subscriptionAvailability": {
+                    "type": "string"
+                },
+                "endpointSecured": {
+                    "type": "string"
+                },
+                "destinationStatsEnabled": {
+                    "type": "string"
+                },
+                "tier": {
+                    "type": "string"
+                },
+                "visibility": {
+                    "type": "string"
+                },
+                "endpointConfig": {
+                    "type": "string"
+                },
+                "uriTemplates": {
+                    "type": "string"
+                },
+                "advertiseOnly": {
+                    "type": "string"
+                },
+                "implementation": {
                     "type": "string"
                 }
             }
