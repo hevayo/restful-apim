@@ -1,12 +1,13 @@
-# Example YAML to get you started quickly.
-# Be aware that YAML has indentation based scoping.
-# Code completion support is available so start typing for available options.
 swagger: '2.0'
 
-# This is your document metadata
 info:
   version: "0.9.0"
   title: "WSO2 API Manager"
+  description: |
+    This document describe a ** RESTFul API ** for wso2 **API Manager**.
+    
+    You can find the source of this API definition at [here](https://github.com/hevayo/restful-apim). It was written with [swagger 2](http://swagger.io/).
+
   contact:
     name: "WSo2"
     url: "http://wso2.com/products/api-manager/"
@@ -18,29 +19,33 @@ consumes: [ "application/json" ]
 produces: [ "application/json" ]
 schemes: [ "https" ]
 
-# Describe your paths here
 paths:
-  # This is a path endpoint. Change it.
   /apis:
-    # This is a HTTP operation
     get:
       description: Get a list of available APIs
       parameters:
-        -
-          name: size
+        - 
+          $ref : "#/parameters/limit"
+        - 
+          $ref : "#/parameters/offset"
+        - 
+          name : query
           in: query
-          description: Size of array
-          required: true
-          type: number
-          format: double
+          description: Search condition. 
+          type: "string"
       responses:
         200:
           description: Successful response
           schema:
-            title: ArrayOfAPIs
-            type: array
-            items:
-              $ref : "#/definitions/API"
+            title: APIList
+            type: object
+            properties:
+              count:
+                type: string
+              list:
+                type: array
+                items: 
+                  $ref : "#/definitions/API"
     post:
       description: "Create a new API"
       parameters:
@@ -53,8 +58,10 @@ paths:
       responses:
         201:
           description: "Successful response with the newly created API object"
-          schema:
-            $ref: "#/definitions/API"
+          headers:
+            Link: 
+              description: "Location to the newly created API."
+              type: "string"
         400:
           description: "Invalid request or validation error"
           schema: 
@@ -65,7 +72,7 @@ paths:
             $ref: "#/definitions/Error"
   /apis/{apiId}:
     parameters:
-      -
+      -  
         $ref: "#/parameters/apiId"  
     get:
       description: Get details of an API
@@ -86,6 +93,8 @@ paths:
       responses:
         200:
           description: Successful response with updated API object
+          schema:
+            $ref: "#/definitions/API"          
         400:
           description: Invalid request or validation error
           schema: 
@@ -99,11 +108,16 @@ paths:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"          
-  /apis/{apiId}/copy:
+  /apis/{apiId}/copy-api:
     parameters:
       -
-        $ref: "#/parameters/apiId"   
+        $ref: "#/parameters/apiId"
     post:
+      parameters:
+        - name: newVersion
+          description: Version of the new API.
+          type: string
+          in: formData
       description: Create a new API by coping and existing 
       responses:
         200:
@@ -112,7 +126,7 @@ paths:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"          
-  /apis/{apiId}/lifecycle:
+  /apis/{apiId}/change-lifecycle:
     parameters:
       -
         $ref: "#/parameters/apiId"  
@@ -125,18 +139,41 @@ paths:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"          
-  
   /apis/{apiId}/documents:
     get:
       description: Get a list of documents belonging to an API 
+      parameters:
+        - 
+          $ref : "#/parameters/limit"
+        - 
+          $ref : "#/parameters/offset"
+        - 
+          name : query
+          in: query
+          description: Search condition.  
+          type: "string"
       responses:
         200:
-          description: Successful response      
+          description: Successful response
+          schema:
+            title: DocumentList
+            type: object
+            properties:
+              count:
+                type: string
+              list:
+                type: array
+                items: 
+                  $ref : "#/definitions/Document"
     post:
       description: Add a new document to an API 
       responses:
         200:
           description: Successful response
+          headers:
+            Link: 
+              description: "Location to the newly created Document."
+              type: "string"          
         400:
           description: Invalid request or validation error
           schema: 
@@ -150,11 +187,15 @@ paths:
       responses:
         200:
           description: Successful response
+          schema:
+            $ref : "#/definitions/Document"
     put:
       description: Update document details 
       responses:
         200:
           description: Successful response
+          schema:
+            $ref : "#/definitions/Document"          
         400:
           description: Invalid request or validation error
           schema: 
@@ -178,19 +219,27 @@ paths:
         required: true
         type: number
         format: integer
-        
-  
   /applications:
     get:
       description: Get a list of Applications created
+      parameters:
+        - 
+          $ref : "#/parameters/limit"
+        - 
+          $ref : "#/parameters/offset"       
       responses:
         200:
-          description: "Successful response"
+          description: Successful response
           schema:
-            title: ArrayOfAPIs
-            type: array
-            items:
-              $ref : "#/definitions/Application"          
+            title: ApplicationList
+            type: object
+            properties:
+              count:
+                type: string
+              list:
+                type: array
+                items: 
+                  $ref : "#/definitions/Application"
         400:
           description: Invalid request or validation error
           schema: 
@@ -207,6 +256,10 @@ paths:
       responses:
         201:
           description: Successful response
+          headers:
+            Link: 
+              description: "Location to the newly created Application."
+              type: "string"          
         400:
           description: Invalid request or validation error
           schema: 
@@ -243,8 +296,7 @@ paths:
             $ref: "#/definitions/Error"          
     parameters: 
       - $ref : "#/parameters/applicationId"
-  
-  /applications/{applicationId}/subscriptions:
+  /subscriptions:
     get:
       description: Get subscription list
       responses:
@@ -255,18 +307,22 @@ paths:
       responses:
         200:
           description: Successful response
+          headers:
+            Link: 
+              description: "Location to the newly created Subscription."
+              type: "string"
         400:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"          
-    parameters: [ { $ref : "#/parameters/applicationId" } ]
-
-  /applications/{applicationId}/subscriptions/{subscriptionId}:
+  /subscriptions/{subscriptionId}:
     get:
       description: Get subscription details
       responses:
         200:
-          description: Successful response            
+          description: Successful response
+          schema:
+            $ref : "#/definitions/Sunscription"
     put:
       description: Update subscription details
       responses:
@@ -286,19 +342,41 @@ paths:
           schema: 
             $ref: "#/definitions/Error"          
     parameters: 
-      - 
-        $ref : "#/parameters/applicationId"
       -
-        $ref : "#/parameters/subscriptionId"
+        $ref : "#/parameters/subscriptionId" 
+  /subscriptions/{subscriptionId}/block-subscription:
+    put:
+      parameters: 
+        -
+          $ref : "#/parameters/subscriptionId"
+      description: Block a subscription.
+      responses:
+        200:
+          description: Subscription was blocked successfully.
+        400:
+          description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"      
+  /tiers:
+    get:
+      description: Get Available Tiers
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: "array"
+            items: 
+              $ref : "#/definitions/Tier"
     
 parameters:
   apiId:
     name: apiId
     in: path
-    description: "API id"
+    description: |
+     **API ID** consisting name version and provider of the API. 
+     Should be formated as **{name/version/provider}**
     required: true
-    type: number
-    format: integer
+    type: string
   applicationId:
     name: applicationId
     in: path
@@ -313,26 +391,103 @@ parameters:
     required: true
     type: number
     format: integer
+  limit:
+    name: limit
+    in: query
+    description: Size of API array return.
+    default: 25
+    required: true
+    type: number
+    format: double
+  offset:
+    name: offset
+    in: query
+    description: Starting point of the item list.  
+    default: 0
+    required: true
+    type: number
+    format: double
+    
 
 definitions:
   API:
     title: "API object"
-    required: [ "name" , "context" ]
+    required: [ "name" , "context", "version" ]
     properties:
       name:
         type: "string"
       context:
         type: "string"
+      version:
+        type: "string"
+      provider:
+        type: "string"
       swagger:
         type: "string"
+        
+  # Following is the Application model, note the consumer key and secret
   Application:
-    title: "Oauth Application"
+    title: "Application"
     required: [ "applicationId" ]
     properties:
       applicationId:
         type: "string"
       name:
         type: "string"
+      throttlingTier:
+        type: "string"
+      callbackUrl:
+        type: "string"
+      description:
+        type: "string"
+      consumerKey:
+        type: "string"
+      consumerSecret:
+        type: "string"
+      accessToken:
+        type: "string"
+  Document:
+    title: "Document"
+    required: ["documentId"]
+    properties:
+      documentId:
+        type: "integer"
+      name:
+        trype: "string"
+      type:
+        trype: "string"
+      summary:
+        trype: "string"      
+      content:
+        trype: "string"      
+      url:
+        trype: "string"   
+  Tier:
+    title: "Tier"
+    required: [ "name" ]
+    properties:
+      name:
+        type: "string"
+      rate:
+        type: "string"
+      roles:
+        type: "string"
+  
+  Sunscription:
+    title: "Subscription"
+    required: [ "subscriptionId" ]
+    properties:
+      subscriptionId:
+        type: "number"
+      applicationId:
+        type: "string"
+      apiId:
+        type: "string"
+      tier:
+        type: "string"
+      status:
+        type: "string"
+        
   Error:
     title: "Error object returned with 4XX HTTP status"
     required: [ "code", "message" ]
@@ -363,9 +518,6 @@ definitions:
         format: int64
       message:
         type: string
-        description: "Description about individual errors occored"    
-    
-        
-        
+        description: "Description about individual errors occored"
         
         

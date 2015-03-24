@@ -3,6 +3,7 @@
     "info": {
         "version": "0.9.0",
         "title": "WSO2 API Manager",
+        "description": "This document describe a ** RESTFul API ** for wso2 **API Manager**.\n\nYou can find the source of this API definition at [here](https://github.com/hevayo/restful-apim). It was written with [swagger 2](http://swagger.io/).\n",
         "contact": {
             "name": "WSo2",
             "url": "http://wso2.com/products/api-manager/",
@@ -28,22 +29,34 @@
                 "description": "Get a list of available APIs",
                 "parameters": [
                     {
-                        "name": "size",
+                        "$ref": "#/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/parameters/offset"
+                    },
+                    {
+                        "name": "query",
                         "in": "query",
-                        "description": "Size of array",
-                        "required": true,
-                        "type": "number",
-                        "format": "double"
+                        "description": "Search condition.",
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "schema": {
-                            "title": "ArrayOfAPIs",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/API"
+                            "title": "APIList",
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "string"
+                                },
+                                "list": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/API"
+                                    }
+                                }
                             }
                         }
                     }
@@ -65,8 +78,11 @@
                 "responses": {
                     "201": {
                         "description": "Successful response with the newly created API object",
-                        "schema": {
-                            "$ref": "#/definitions/API"
+                        "headers": {
+                            "Link": {
+                                "description": "Location to the newly created API.",
+                                "type": "string"
+                            }
                         }
                     },
                     "400": {
@@ -116,7 +132,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response with updated API object"
+                        "description": "Successful response with updated API object",
+                        "schema": {
+                            "$ref": "#/definitions/API"
+                        }
                     },
                     "400": {
                         "description": "Invalid request or validation error",
@@ -141,13 +160,21 @@
                 }
             }
         },
-        "/apis/{apiId}/copy": {
+        "/apis/{apiId}/copy-api": {
             "parameters": [
                 {
                     "$ref": "#/parameters/apiId"
                 }
             ],
             "post": {
+                "parameters": [
+                    {
+                        "name": "newVersion",
+                        "description": "Version of the new API.",
+                        "type": "string",
+                        "in": "formData"
+                    }
+                ],
                 "description": "Create a new API by coping and existing",
                 "responses": {
                     "200": {
@@ -162,7 +189,7 @@
                 }
             }
         },
-        "/apis/{apiId}/lifecycle": {
+        "/apis/{apiId}/change-lifecycle": {
             "parameters": [
                 {
                     "$ref": "#/parameters/apiId"
@@ -186,9 +213,38 @@
         "/apis/{apiId}/documents": {
             "get": {
                 "description": "Get a list of documents belonging to an API",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/parameters/offset"
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search condition.",
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "title": "DocumentList",
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "string"
+                                },
+                                "list": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Document"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -196,7 +252,13 @@
                 "description": "Add a new document to an API",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "headers": {
+                            "Link": {
+                                "description": "Location to the newly created Document.",
+                                "type": "string"
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid request or validation error",
@@ -217,7 +279,10 @@
                 "description": "Get the document details of an API",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
                     }
                 }
             },
@@ -225,7 +290,10 @@
                 "description": "Update document details",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
                     },
                     "400": {
                         "description": "Invalid request or validation error",
@@ -266,14 +334,30 @@
         "/applications": {
             "get": {
                 "description": "Get a list of Applications created",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/limit"
+                    },
+                    {
+                        "$ref": "#/parameters/offset"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful response",
                         "schema": {
-                            "title": "ArrayOfAPIs",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Application"
+                            "title": "ApplicationList",
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "string"
+                                },
+                                "list": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Application"
+                                    }
+                                }
                             }
                         }
                     },
@@ -300,7 +384,13 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "headers": {
+                            "Link": {
+                                "description": "Location to the newly created Application.",
+                                "type": "string"
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid request or validation error",
@@ -363,7 +453,7 @@
                 }
             ]
         },
-        "/applications/{applicationId}/subscriptions": {
+        "/subscriptions": {
             "get": {
                 "description": "Get subscription list",
                 "responses": {
@@ -376,7 +466,13 @@
                 "description": "Add a new subscription",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "headers": {
+                            "Link": {
+                                "description": "Location to the newly created Subscription.",
+                                "type": "string"
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid request or validation error",
@@ -385,19 +481,17 @@
                         }
                     }
                 }
-            },
-            "parameters": [
-                {
-                    "$ref": "#/parameters/applicationId"
-                }
-            ]
+            }
         },
-        "/applications/{applicationId}/subscriptions/{subscriptionId}": {
+        "/subscriptions/{subscriptionId}": {
             "get": {
                 "description": "Get subscription details",
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/Sunscription"
+                        }
                     }
                 }
             },
@@ -431,22 +525,55 @@
             },
             "parameters": [
                 {
-                    "$ref": "#/parameters/applicationId"
-                },
-                {
                     "$ref": "#/parameters/subscriptionId"
                 }
             ]
+        },
+        "/subscriptions/{subscriptionId}/block-subscription": {
+            "put": {
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/subscriptionId"
+                    }
+                ],
+                "description": "Block a subscription.",
+                "responses": {
+                    "200": {
+                        "description": "Subscription was blocked successfully."
+                    },
+                    "400": {
+                        "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/tiers": {
+            "get": {
+                "description": "Get Available Tiers",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Tier"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "parameters": {
         "apiId": {
             "name": "apiId",
             "in": "path",
-            "description": "API id",
+            "description": "**API ID** consisting name version and provider of the API. \nShould be formated as **{name/version/provider}**\n",
             "required": true,
-            "type": "number",
-            "format": "integer"
+            "type": "string"
         },
         "applicationId": {
             "name": "applicationId",
@@ -463,6 +590,24 @@
             "required": true,
             "type": "number",
             "format": "integer"
+        },
+        "limit": {
+            "name": "limit",
+            "in": "query",
+            "description": "Size of API array return.",
+            "default": 25,
+            "required": true,
+            "type": "number",
+            "format": "double"
+        },
+        "offset": {
+            "name": "offset",
+            "in": "query",
+            "description": "Starting point of the item list.",
+            "default": 0,
+            "required": true,
+            "type": "number",
+            "format": "double"
         }
     },
     "definitions": {
@@ -470,7 +615,8 @@
             "title": "API object",
             "required": [
                 "name",
-                "context"
+                "context",
+                "version"
             ],
             "properties": {
                 "name": {
@@ -479,13 +625,19 @@
                 "context": {
                     "type": "string"
                 },
+                "version": {
+                    "type": "string"
+                },
+                "provider": {
+                    "type": "string"
+                },
                 "swagger": {
                     "type": "string"
                 }
             }
         },
         "Application": {
-            "title": "Oauth Application",
+            "title": "Application",
             "required": [
                 "applicationId"
             ],
@@ -494,6 +646,90 @@
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "throttlingTier": {
+                    "type": "string"
+                },
+                "callbackUrl": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "consumerKey": {
+                    "type": "string"
+                },
+                "consumerSecret": {
+                    "type": "string"
+                },
+                "accessToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "Document": {
+            "title": "Document",
+            "required": [
+                "documentId"
+            ],
+            "properties": {
+                "documentId": {
+                    "type": "integer"
+                },
+                "name": {
+                    "trype": "string"
+                },
+                "type": {
+                    "trype": "string"
+                },
+                "summary": {
+                    "trype": "string"
+                },
+                "content": {
+                    "trype": "string"
+                },
+                "url": {
+                    "trype": "string"
+                }
+            }
+        },
+        "Tier": {
+            "title": "Tier",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "rate": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "string"
+                }
+            }
+        },
+        "Sunscription": {
+            "title": "Subscription",
+            "required": [
+                "subscriptionId"
+            ],
+            "properties": {
+                "subscriptionId": {
+                    "type": "number"
+                },
+                "applicationId": {
+                    "type": "string"
+                },
+                "apiId": {
+                    "type": "string"
+                },
+                "tier": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }
