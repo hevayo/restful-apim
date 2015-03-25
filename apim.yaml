@@ -120,7 +120,7 @@ paths:
           in: formData
       description: Create a new API by coping and existing 
       responses:
-        200:
+        201:
           description: Successful response
         400:
           description: Invalid request or validation error
@@ -133,7 +133,7 @@ paths:
     post:
       description: Change the lifecycle of an API 
       responses:
-        200:
+        201:
           description: Successful response  
         400:
           description: Invalid request or validation error
@@ -168,7 +168,7 @@ paths:
     post:
       description: Add a new document to an API 
       responses:
-        200:
+        201:
           description: Successful response
           headers:
             Link: 
@@ -203,7 +203,7 @@ paths:
     delete:
       description: Delete a document of an API
       responses:
-        200:
+        204:
           description: Successful response  
         400:
           description: Invalid request or validation error
@@ -305,7 +305,7 @@ paths:
     post:
       description: Add a new subscription
       responses:
-        200:
+        201:
           description: Successful response
           headers:
             Link: 
@@ -424,7 +424,36 @@ definitions:
         type: "string"
       swagger:
         type: "string"
-        
+      status:
+        type: "string"
+      responseCaching:
+        type: "string"
+      isDefaultVersion:
+        type: "boolean"
+      transport:
+        type: "array"
+        items:
+          type: "string"
+          enum: [ "http", "https" ]
+      tier:
+        type: "string"
+      visibility:
+        type: "string"
+        enum: ["public","private"]
+      endpoint:
+        type: "object"
+        properties:
+          type:
+            type: "string"
+            enum: ["http","address","wsdl","failover","load_balanced"]
+          production:
+            type: "array"
+            items:
+              type: "string"
+          sandbox:
+            type: "array"
+            items:
+              type: "string"
   # Following is the Application model, note the consumer key and secret
   Application:
     title: "Application"
