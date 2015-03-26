@@ -114,6 +114,12 @@
                         "schema": {
                             "$ref": "#/definitions/API"
                         }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -142,6 +148,12 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -153,6 +165,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -185,6 +203,12 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             }
@@ -203,6 +227,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -245,6 +275,12 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -262,6 +298,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested API does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -283,6 +325,12 @@
                         "schema": {
                             "$ref": "#/definitions/Document"
                         }
+                    },
+                    "404": {
+                        "description": "Requested API or Document does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -300,6 +348,12 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
+                    },
+                    "404": {
+                        "description": "Requested API or Document does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -311,6 +365,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested API or Document does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -416,6 +476,12 @@
                         "schema": {
                             "$ref": "#/definitions/Application"
                         }
+                    },
+                    "404": {
+                        "description": "Requested Application does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -430,6 +496,12 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
+                    },
+                    "404": {
+                        "description": "Requested Application does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -441,6 +513,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested Application does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -492,6 +570,12 @@
                         "schema": {
                             "$ref": "#/definitions/Sunscription"
                         }
+                    },
+                    "404": {
+                        "description": "Requested Subscription does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -506,6 +590,12 @@
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
+                    },
+                    "404": {
+                        "description": "Requested Subscription does not exist.",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
                     }
                 }
             },
@@ -517,6 +607,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested Subscription does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -543,6 +639,12 @@
                     },
                     "400": {
                         "description": "Invalid request or validation error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Requested Subscription does not exist.",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
