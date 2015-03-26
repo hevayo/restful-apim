@@ -132,7 +132,7 @@ paths:
           in: formData
       description: Create a new API by coping and existing 
       responses:
-        200:
+        201:
           description: Successful response
         400:
           description: Invalid request or validation error
@@ -149,7 +149,7 @@ paths:
     post:
       description: Change the lifecycle of an API 
       responses:
-        200:
+        201:
           description: Successful response  
         400:
           description: Invalid request or validation error
@@ -192,7 +192,7 @@ paths:
     post:
       description: Add a new document to an API 
       responses:
-        200:
+        201:
           description: Successful response
           headers:
             Link: 
@@ -239,7 +239,7 @@ paths:
     delete:
       description: Delete a document of an API
       responses:
-        200:
+        204:
           description: Successful response  
         400:
           description: Invalid request or validation error
@@ -357,7 +357,7 @@ paths:
     post:
       description: Add a new subscription
       responses:
-        200:
+        201:
           description: Successful response
           headers:
             Link: 
