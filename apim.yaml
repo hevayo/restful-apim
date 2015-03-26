@@ -81,6 +81,10 @@ paths:
           description: Successful response
           schema: 
             $ref : "#/definitions/API"
+        404:
+          description: Requested API does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
     put:
       description: Update an existing API
       parameters:
@@ -98,6 +102,10 @@ paths:
         400:
           description: Invalid request or validation error
           schema: 
+            $ref: "#/definitions/Error"
+        404:
+          description: Requested API does not exist.
+          schema: 
             $ref: "#/definitions/Error"          
     delete:
       description: Delete an existing API
@@ -106,6 +114,10 @@ paths:
           description: Successful response
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"
+        404:
+          description: Requested API does not exist.
           schema: 
             $ref: "#/definitions/Error"          
   /apis/{apiId}/copy-api:
@@ -125,6 +137,10 @@ paths:
         400:
           description: Invalid request or validation error
           schema: 
+            $ref: "#/definitions/Error"
+        404:
+          description: Requested API does not exist.
+          schema: 
             $ref: "#/definitions/Error"          
   /apis/{apiId}/change-lifecycle:
     parameters:
@@ -137,6 +153,10 @@ paths:
           description: Successful response  
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"
+        404:
+          description: Requested API does not exist.
           schema: 
             $ref: "#/definitions/Error"          
   /apis/{apiId}/documents:
@@ -165,6 +185,10 @@ paths:
                 type: array
                 items: 
                   $ref : "#/definitions/Document"
+        404:
+          description: Requested API does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
     post:
       description: Add a new document to an API 
       responses:
@@ -178,6 +202,10 @@ paths:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"          
+        404:
+          description: Requested API does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
     parameters:
       -
         $ref: "#/parameters/apiId"
@@ -189,6 +217,10 @@ paths:
           description: Successful response
           schema:
             $ref : "#/definitions/Document"
+        404:
+          description: Requested API or Document does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
     put:
       description: Update document details 
       responses:
@@ -200,6 +232,10 @@ paths:
           description: Invalid request or validation error
           schema: 
             $ref: "#/definitions/Error"
+        404:
+          description: Requested API or Document does not exist. 
+          schema: 
+            $ref: "#/definitions/Error"          
     delete:
       description: Delete a document of an API
       responses:
@@ -207,6 +243,10 @@ paths:
           description: Successful response  
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"       
+        404:
+          description: Requested API or Document does not exist.
           schema: 
             $ref: "#/definitions/Error"          
     parameters:
@@ -275,7 +315,11 @@ paths:
         200:
           description: Successful response
           schema:
-            $ref: "#/definitions/Application"          
+            $ref: "#/definitions/Application"
+        404:
+          description: Requested Application does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
     put:
       description: Update application details
       responses:
@@ -283,6 +327,10 @@ paths:
           description: Successful response
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"  
+        404:
+          description: Requested Application does not exist.
           schema: 
             $ref: "#/definitions/Error"          
     delete:
@@ -292,6 +340,10 @@ paths:
           description: Application was deleted successfully.
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"
+        404:
+          description: Requested Application does not exist.
           schema: 
             $ref: "#/definitions/Error"          
     parameters: 
@@ -323,6 +375,10 @@ paths:
           description: Successful response
           schema:
             $ref : "#/definitions/Sunscription"
+        404:
+          description: Requested Subscription does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
     put:
       description: Update subscription details
       responses:
@@ -330,6 +386,10 @@ paths:
           description: Successful response
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error" 
+        404:
+          description: Requested Subscription does not exist.
           schema: 
             $ref: "#/definitions/Error"          
     delete:
@@ -339,6 +399,10 @@ paths:
           description: Unsubscribe from an API
         400:
           description: Invalid request or validation error
+          schema: 
+            $ref: "#/definitions/Error"   
+        404:
+          description: Requested Subscription does not exist.
           schema: 
             $ref: "#/definitions/Error"          
     parameters: 
@@ -356,7 +420,11 @@ paths:
         400:
           description: Invalid request or validation error
           schema: 
-            $ref: "#/definitions/Error"      
+            $ref: "#/definitions/Error"
+        404:
+          description: Requested Subscription does not exist.
+          schema: 
+            $ref: "#/definitions/Error"          
   /tiers:
     get:
       description: Get Available Tiers
